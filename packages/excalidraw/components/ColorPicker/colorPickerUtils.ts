@@ -22,13 +22,19 @@ export const getColorNameAndShadeFromColor = ({
   if (!color) {
     return null;
   }
+  // normalize hex notation (`#FFF` vs `#ffffff` vs `#fff`) so a color picked
+  // from one Excalidraw version is still recognized after palette migrations
+  // that change casing or shorthand
+  const normalized = color.trim().toLowerCase();
   for (const [colorName, colorVal] of Object.entries(palette)) {
     if (Array.isArray(colorVal)) {
-      const shade = colorVal.indexOf(color);
+      const shade = colorVal.findIndex(
+        (shade) => shade.toLowerCase() === normalized,
+      );
       if (shade > -1) {
         return { colorName: colorName as ColorPickerColor, shade };
       }
-    } else if (colorVal === color) {
+    } else if ((colorVal as string).toLowerCase() === normalized) {
       return { colorName: colorName as ColorPickerColor, shade: null };
     }
   }
