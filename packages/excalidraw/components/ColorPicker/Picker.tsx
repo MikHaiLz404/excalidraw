@@ -125,7 +125,9 @@ export const Picker = React.forwardRef(
       if (colorObj?.shade != null) {
         setActiveShade(colorObj.shade);
       }
+    }, [color, colorObj?.shade, setActiveShade]);
 
+    useEffect(() => {
       const keyup = (event: KeyboardEvent) => {
         if (event.key === KEYS.ALT) {
           onEyeDropperToggle(false);
@@ -135,7 +137,7 @@ export const Picker = React.forwardRef(
       return () => {
         document.removeEventListener(EVENT.KEYUP, keyup, { capture: true });
       };
-    }, [colorObj, onEyeDropperToggle]);
+    }, [onEyeDropperToggle]);
     const pickerRef = React.useRef<HTMLDivElement>(null);
 
     useImperativeHandle(ref, () => pickerRef.current!);
