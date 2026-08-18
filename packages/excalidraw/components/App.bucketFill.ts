@@ -38,7 +38,7 @@ type ScenePoint = {
 
 const BUCKET_FILL_KEYBOARD_COLOR_PICKS = BUCKET_FILL_BACKGROUND_PICKS.filter(
   (color) => color !== COLOR_PALETTE.white,
-);
+) as readonly string[];
 
 /** Owns bucket-fill interaction and App-bound scene mutations. */
 export class AppBucketFill {
