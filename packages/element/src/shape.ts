@@ -219,7 +219,9 @@ export const generateRoughOptions = (
     fillWeight: element.strokeWidth / 2,
     hachureGap: element.strokeWidth * 4,
     roughness: adjustRoughness(element),
-    stroke: applyDarkModeFilter(element.strokeColor, isDarkMode),
+    // render stroke in its literal color regardless of theme — users
+    // expect what they picked in the picker to match what's drawn
+    stroke: element.strokeColor,
     preserveVertices:
       continuousPath || element.roughness < ROUGHNESS.cartoonist,
   };
@@ -233,7 +235,7 @@ export const generateRoughOptions = (
       options.fillStyle = element.fillStyle;
       options.fill = isTransparent(element.backgroundColor)
         ? undefined
-        : applyDarkModeFilter(element.backgroundColor, isDarkMode);
+        : element.backgroundColor;
       if (element.type === "ellipse") {
         options.curveFitting = 1;
       }
@@ -246,7 +248,7 @@ export const generateRoughOptions = (
         options.fill =
           element.backgroundColor === "transparent"
             ? undefined
-            : applyDarkModeFilter(element.backgroundColor, isDarkMode);
+            : element.backgroundColor;
       }
       return options;
     }
@@ -381,11 +383,10 @@ const getArrowheadShapes = (
     return [];
   }
 
-  const strokeColor = applyDarkModeFilter(element.strokeColor, isDarkMode);
-  const backgroundFillColor = applyDarkModeFilter(
-    canvasBackgroundColor,
-    isDarkMode,
-  );
+  // arrowhead stroke and fill must match the parent element/literal canvas
+  // background so the arrow visually belongs to its source in any theme
+  const strokeColor = element.strokeColor;
+  const backgroundFillColor = canvasBackgroundColor;
   const cardinalityOneOrManyOffset = -0.25;
   const cardinalityZeroCircleScale = 0.8;
 

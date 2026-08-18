@@ -353,10 +353,7 @@ const drawElementOnCanvas = (
 
       for (const shape of shapes) {
         if (typeof shape === "string") {
-          context.fillStyle = applyDarkModeFilter(
-            element.strokeColor,
-            renderConfig.theme === THEME.DARK,
-          );
+          context.fillStyle = element.strokeColor;
           context.fill(new Path2D(shape));
         } else {
           rc.draw(shape);
@@ -486,10 +483,7 @@ const drawElementOnCanvas = (
         context.canvas.setAttribute("dir", rtl ? "rtl" : "ltr");
         context.save();
         context.font = getFontString(element);
-        context.fillStyle = applyDarkModeFilter(
-          element.strokeColor,
-          renderConfig.theme === THEME.DARK,
-        );
+        context.fillStyle = element.strokeColor;
         context.textAlign = element.textAlign as CanvasTextAlign;
 
         // Canvas does not support multiline text by default
@@ -746,10 +740,7 @@ export const renderElement = (
         context.fillStyle = "rgba(0, 0, 200, 0.04)";
 
         context.lineWidth = FRAME_STYLE.strokeWidth / appState.zoom.value;
-        context.strokeStyle = applyDarkModeFilter(
-          FRAME_STYLE.strokeColor,
-          appState.theme === THEME.DARK,
-        );
+        context.strokeStyle = FRAME_STYLE.strokeColor;
 
         // TODO change later to only affect AI frames
         if (isMagicFrameElement(element)) {
