@@ -115,7 +115,11 @@ export const TopPicks = ({
       )}
       {colors.map((color: string, index: number) => {
         const reorderOffset = getReorderOffset(index);
-        const displayColor = applyDarkModeFilter(color, theme === THEME.DARK);
+        // top picks are a UI affordance — always render in their literal
+        // color so the swatch matches the picker regardless of theme. The
+        // chosen color goes through applyDarkModeFilter on canvas render, but
+        // the picker itself must stay faithful to the palette.
+        const displayColor = color;
         return (
           <button
             className={clsx("color-picker__button", {
