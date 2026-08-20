@@ -33,7 +33,6 @@ export class AnimatedTrail implements Trail {
 
   private container?: SVGSVGElement;
   private trailElement: SVGPathElement;
-  private trailAnimation?: SVGAnimateElement;
   private key: string;
 
   private static counter = 0;
@@ -46,15 +45,11 @@ export class AnimatedTrail implements Trail {
     this.key = `animated-trail-${AnimatedTrail.counter++}`;
     this.trailElement = document.createElementNS(SVG_NS, "path");
     if (this.options.animateTrail) {
-      this.trailAnimation = document.createElementNS(SVG_NS, "animate");
-      // TODO: make this configurable
-      this.trailAnimation.setAttribute("attributeName", "stroke-dashoffset");
+      // CSS animation keeps this overlay visible to DevTools' Animations panel.
+      // SMIL (<animate>) is not supported there and triggers an Issues warning.
+      this.trailElement.classList.add("animated-trail--dashed");
       this.trailElement.setAttribute("stroke-dasharray", "7 7");
       this.trailElement.setAttribute("stroke-dashoffset", "10");
-      this.trailAnimation.setAttribute("from", "0");
-      this.trailAnimation.setAttribute("to", `-14`);
-      this.trailAnimation.setAttribute("dur", "0.3s");
-      this.trailElement.appendChild(this.trailAnimation);
     }
   }
 
@@ -148,10 +143,6 @@ export class AnimatedTrail implements Trail {
 
   private update() {
     this.start();
-    if (this.trailAnimation) {
-      this.trailAnimation.setAttribute("begin", "indefinite");
-      this.trailAnimation.setAttribute("repeatCount", "indefinite");
-    }
   }
 
   private onFrame() {
@@ -182,7 +173,7 @@ export class AnimatedTrail implements Trail {
     const svgPaths = paths.join(" ").trim();
     this.trailElement.setAttribute("d", svgPaths);
 
-    if (this.trailAnimation) {
+    if (this.options.animateTrail) {
       this.trailElement.setAttribute(
         "fill",
         (this.options.fill ?? (() => "black"))(this),
@@ -213,7 +204,7 @@ export class AnimatedTrail implements Trail {
         return [result.x, result.y];
       });
 
-    const stroke = this.trailAnimation
+    const stroke = this.options.animateTrail
       ? _stroke.slice(0, _stroke.length / 2)
       : _stroke;
 

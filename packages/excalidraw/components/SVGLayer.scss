@@ -20,5 +20,19 @@
       top: 0;
       left: 0;
     }
+
+    .animated-trail--dashed {
+      animation: animated-trail-dash 0.3s linear infinite;
+    }
+
+    @keyframes animated-trail-dash {
+      from {
+        stroke-dashoffset: 0;
+      }
+
+      to {
+        stroke-dashoffset: -14;
+      }
+    }
   }
 }
