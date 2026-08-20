@@ -3,11 +3,19 @@ import {
   MAX_CUSTOM_COLORS_USED_IN_CANVAS,
 } from "@excalidraw/common";
 
-import type { ExcalidrawElement } from "@excalidraw/element/types";
+import type { ExcalidrawElement, Theme } from "@excalidraw/element/types";
 
 import type { ColorPickerColor, ColorPaletteCustom } from "@excalidraw/common";
 
 import { atom } from "../../editor-jotai";
+
+/**
+ * The editor theme changes UI chrome only. A swatch must always show the
+ * literal color it writes to the element, otherwise the picker and canvas
+ * disagree (for example #ffd43b yellow becomes brown in dark mode).
+ */
+export const getColorPickerDisplayColor = (color: string, _theme: Theme) =>
+  color;
 
 export const getColorNameAndShadeFromColor = ({
   palette,

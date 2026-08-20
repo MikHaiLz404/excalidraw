@@ -3,7 +3,6 @@ import clsx from "clsx";
 import { memo, useRef, useEffect } from "react";
 
 import {
-  applyDarkModeFilter,
   COLOR_OUTLINE_CONTRAST_THRESHOLD,
   COLOR_PALETTE,
   DEFAULT_ELEMENT_BACKGROUND_PICKS,
@@ -34,7 +33,10 @@ import { ColorInput } from "./ColorInput";
 import { Picker } from "./Picker";
 import PickerHeading from "./PickerHeading";
 import { TopPicks } from "./TopPicks";
-import { activeColorPickerSectionAtom } from "./colorPickerUtils";
+import {
+  activeColorPickerSectionAtom,
+  getColorPickerDisplayColor,
+} from "./colorPickerUtils";
 import {
   ColorPickerDnDContext,
   useColorPickerDnD,
@@ -279,9 +281,7 @@ const ColorPickerTrigger = ({
   const isCompactMode = stylesPanelMode !== "full";
   const isMobileMode = stylesPanelMode === "mobile";
   const dnd = useColorPickerDnD();
-  const displayColor = color
-    ? applyDarkModeFilter(color, theme === THEME.DARK)
-    : null;
+  const displayColor = color ? getColorPickerDisplayColor(color, theme) : null;
   const handleClick = (e: React.MouseEvent) => {
     // use pointerdown so we run before outside-close logic
     e.preventDefault();

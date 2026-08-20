@@ -2,9 +2,7 @@ import clsx from "clsx";
 import { useEffect, useRef } from "react";
 
 import {
-  applyDarkModeFilter,
   isColorDark,
-  THEME,
   type ColorPaletteCustom,
 } from "@excalidraw/common";
 
@@ -18,6 +16,7 @@ import {
   activeColorPickerSectionAtom,
   colorPickerHotkeyBindings,
   getColorNameAndShadeFromColor,
+  getColorPickerDisplayColor,
 } from "./colorPickerUtils";
 import { useColorPickerDnD } from "./topPicksDnD";
 
@@ -83,7 +82,7 @@ const PickerColorList = ({
         }
 
         const keybinding = colorPickerHotkeyBindings[index];
-        const displayColor = applyDarkModeFilter(color, theme === THEME.DARK);
+        const displayColor = getColorPickerDisplayColor(color, theme);
         const label = t(
           `colors.${key.replace(/\d+/, "")}` as unknown as TranslationKeys,
           null,

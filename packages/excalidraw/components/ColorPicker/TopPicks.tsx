@@ -2,13 +2,11 @@ import clsx from "clsx";
 import { ContextMenu } from "radix-ui";
 
 import {
-  applyDarkModeFilter,
   COLOR_OUTLINE_CONTRAST_THRESHOLD,
   DEFAULT_CANVAS_BACKGROUND_PICKS,
   DEFAULT_ELEMENT_BACKGROUND_PICKS,
   DEFAULT_ELEMENT_STROKE_PICKS,
   isColorDark,
-  THEME,
 } from "@excalidraw/common";
 
 import type { Theme } from "@excalidraw/element/types";
@@ -18,7 +16,10 @@ import { useExcalidrawContainer } from "../App";
 
 import { useColorPickerDnD } from "./topPicksDnD";
 
-import type { ColorPickerType } from "./colorPickerUtils";
+import {
+  getColorPickerDisplayColor,
+  type ColorPickerType,
+} from "./colorPickerUtils";
 
 interface TopPicksProps {
   theme: Theme;
@@ -115,11 +116,7 @@ export const TopPicks = ({
       )}
       {colors.map((color: string, index: number) => {
         const reorderOffset = getReorderOffset(index);
-        // top picks are a UI affordance — always render in their literal
-        // color so the swatch matches the picker regardless of theme. The
-        // chosen color goes through applyDarkModeFilter on canvas render, but
-        // the picker itself must stay faithful to the palette.
-        const displayColor = color;
+        const displayColor = getColorPickerDisplayColor(color, theme);
         return (
           <button
             className={clsx("color-picker__button", {

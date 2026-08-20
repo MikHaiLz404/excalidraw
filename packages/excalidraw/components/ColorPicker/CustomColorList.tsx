@@ -1,14 +1,15 @@
 import clsx from "clsx";
 import { useEffect, useRef } from "react";
 
-import { applyDarkModeFilter, THEME } from "@excalidraw/common";
-
 import type { Theme } from "@excalidraw/element/types";
 
 import { useAtom } from "../../editor-jotai";
 
 import HotkeyLabel from "./HotkeyLabel";
-import { activeColorPickerSectionAtom } from "./colorPickerUtils";
+import {
+  activeColorPickerSectionAtom,
+  getColorPickerDisplayColor,
+} from "./colorPickerUtils";
 import { useColorPickerDnD } from "./topPicksDnD";
 
 interface CustomColorListProps {
@@ -42,7 +43,7 @@ export const CustomColorList = ({
   return (
     <div className="color-picker-content--default">
       {colors.map((c, i) => {
-        const displayColor = applyDarkModeFilter(c, theme === THEME.DARK);
+        const displayColor = getColorPickerDisplayColor(c, theme);
         return (
           <button
             ref={color === c ? btnRef : undefined}
