@@ -154,6 +154,12 @@ describe("ColorInput error handling", () => {
     return container.querySelector(".color-picker-input") as HTMLInputElement;
   };
 
+  it("gives the hex field a stable form name", async () => {
+    const colorInput = await openCanvasBackgroundColorPicker();
+
+    expect(colorInput.name).toBe("canvasBackground-color");
+  });
+
   it("shows error for invalid hex length (too short)", async () => {
     const colorInput = await openCanvasBackgroundColorPicker();
 

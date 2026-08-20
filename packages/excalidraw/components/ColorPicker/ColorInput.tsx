@@ -88,6 +88,8 @@ export const ColorInput = ({
           style={{ border: 0, padding: 0 }}
           spellCheck={false}
           className="color-picker-input"
+          id={`${colorPickerType}-color`}
+          name={`${colorPickerType}-color`}
           aria-label={label}
           aria-invalid={!!errorMessage}
           onChange={(event) => {

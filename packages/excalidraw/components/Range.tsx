@@ -27,6 +27,7 @@ export const Range = ({
 }: RangeProps) => {
   const rangeRef = React.useRef<HTMLInputElement>(null);
   const valueRef = React.useRef<HTMLDivElement>(null);
+  const inputId = React.useId();
 
   useEffect(() => {
     if (rangeRef.current && valueRef.current) {
@@ -58,6 +59,7 @@ export const Range = ({
               : "var(--button-bg)",
           }}
           ref={rangeRef}
+          id={inputId}
           type="range"
           min={min}
           max={max}
